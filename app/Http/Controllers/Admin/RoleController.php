@@ -11,14 +11,29 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    protected $roles;
+    public function __construct()
+    {
+        $this->roles=new Role();
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles=Role::latest('id')->paginate(3);
+        $filters=[];
+        $keywords=null;
+        if(!empty($request->group)){
+            $group=$request->group;
+            $filters[]=['group','=',$group];
+        }
+        if(!empty($request->keywords)){
+            // search thì có Orwhere
+            $keywords=$request->keywords;
+        }
+        $roles=$this->roles->getAllRoles($filters,$keywords);
         return view('admin.roles.index',['roles'=>$roles]);
     }
 
