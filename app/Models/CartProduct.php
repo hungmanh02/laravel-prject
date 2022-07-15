@@ -15,4 +15,14 @@ class CartProduct extends Model
         'product_quantity',
         'product_price',
     ];
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+    public function cart(){
+        return $this->belongsTo(Cart::class);
+    }
+    //chưa làm size product
+    public function getBy($cartId,$productId,$productSize){
+        return CartProduct::whereCartId($cartId)->whereProductId($productId)->whereProductSize($productSize)->first();
+    }
 }

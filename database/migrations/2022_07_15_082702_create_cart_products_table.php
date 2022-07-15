@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -18,12 +19,13 @@ class CreateCartProductsTable extends Migration
         Schema::create('cart_products', function (Blueprint $table) {
             $table->id();
             $table->string('product_size');
-            $table->string('product_color');
+            // $table->string('product_color');
             $table->smallInteger('product_quantity');
             $table->double('product_price');
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Cart::class)->constrained()->cascadeOnDelete();
 
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            // $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

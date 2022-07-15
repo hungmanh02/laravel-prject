@@ -5,8 +5,11 @@
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
+    @if (Route::has('login'))
     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        @auth
         <div class="navbar-nav mr-auto py-0">
+            
             <a href="{{ route('client.home') }}" class="nav-item nav-link active">Home</a>
             {{-- <a href="shop.html" class="nav-item nav-link">Shop</a>
             <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
@@ -18,10 +21,23 @@
                 </div>
             </div>
             <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
+            
         </div>
         <div class="navbar-nav ml-auto py-0">
-            <a href="" class="nav-item nav-link">Login</a>
-            <a href="" class="nav-item nav-link">Register</a>
+            <a href="{{ route('client.home') }}" class="nav-item nav-link active">{{ Auth::user()->name }}</a>
+            
         </div>
+        @else
+            <div class="navbar-nav ml-auto py-0">
+            
+                <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="nav-item nav-link">Register</a>
+                @endif
+            </div>
+        @endauth
+        
+        
     </div>
+    @endif
 </nav>
