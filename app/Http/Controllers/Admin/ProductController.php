@@ -25,7 +25,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products=$this->product->latest('id')->paginate(5);
+        // $products=$this->product->latest('id')->paginate(5);
+        $products=$this->product->getAllProducts();
         return view('admin.products.index',['products'=>$products]);
     }
 

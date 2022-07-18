@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Traits\HandleUploadImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
+    protected $table="products";
     use HasFactory, HandleUploadImageTrait;
     protected $fillable = [
         'name',
@@ -15,7 +17,14 @@ class Product extends Model
         'sale',
         'price'
     ];
-
+    public function getAllProducts(){
+        $products=DB::table($this->table)
+        ->select('products.*','images.url as image_url')
+        ->join('images','products.id','=','images.imageable_id')
+        ->orderBy('products.id','desc')
+        ->paginate(5);
+        return $products;
+    }
     public function details(){
         return $this->hasMany(ProductDetail::class);
     }

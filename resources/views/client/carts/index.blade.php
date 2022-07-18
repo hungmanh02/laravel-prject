@@ -17,8 +17,8 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
+                   
                     @foreach ($carts->products as $item)
-                        
                     <tr>
                         <td class="align-middle"><img src="{{$item->product->image_path}}" alt="" style="width: 50px;">{{$item->product->name}}t</td>
                         <td class="align-middle" >
@@ -34,16 +34,21 @@
                         <td class="align-middle">{{ $item->product->sale }}</td>
                         <td class="align-middle">
                             <div class="input-group quantity mx-auto" style="width: 100px;">
+                                <form action="{{url("cart?product_id=$item->id&decrease=1")}}" method="post">
+                                
+                                    <div class="input-group-btn">
+                                        <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button href="" class="btn btn-sm btn-primary btn-minus btn-update-quantity">
+                                        <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                                <input type="text" class="form-control form-control-sm bg-secondary text-center" value="{{ $item->product_quantity }}" name="productQuantityInput">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus" data-id="{{ $item->id }}">
-                                    <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control form-control-sm bg-secondary text-center" value="{{ $item->product_quantity }}">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-plus"  data-id="{{ $item->id }}>
+                                    <a href="{{url("cart?product_id=$item->id&increment=1")}}" class="btn btn-sm btn-primary btn-plus btn-update-quantity">
                                         <i class="fa fa-plus"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </td>
@@ -90,4 +95,24 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    const TIME_TO_UPDATE =1000;
+    $(function(){
+        $(document).on('click','.btn-update-quantity',_.debounce(function(e){
+            let url=$(this).data('action')
+            let id=$(this).data('id')
+            let data={
+                product_quanity: $(`#productQuantityInput-${id}`).val()
+            }
+            $.post(url,data,res =>{
+                let cartProductId=res.product_cart_id;
+                if(res.remove_product){
+                    $(`#row-${cartProductId}`).remove();
+                }
+            })
+        },TIME_TO_UPDATE))
+    })
+</script>
 @endsection

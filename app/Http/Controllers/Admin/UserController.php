@@ -24,10 +24,40 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users=$this->user->latest('id')->paginate(5);
-        return view('admin.users.index',['users'=>$users]);
+        $filters=[];
+        $keywords=null;
+        if(!empty($request->gender)){
+            $gender=$request->gender;
+            $filters[]=['gender','=',$gender];
+        }
+        if(!empty($request->keywords)){
+            // search thì có Orwhere
+            $keywords=$request->keywords;
+        }
+        // xử lý logic sắp xếp
+        $sortBy=$request->input('sort-by');
+        $allowSort=['asc','desc'];
+        $sortType=$request->input('sort-type');
+        // áp dụng trong trường hợp có du liệu sorttype và không được sửa trên url
+        // chỉ sự dung trong 2 p. tử trong mảng allowSort
+        if(!empty($sortType) && in_array($sortType,$allowSort)){
+            if($sortType=='desc'){
+                $sortType='asc';
+            }else{
+                $sortType='desc';
+            }
+        }else{
+            $sortType='asc';
+        }
+        $sortArr=[
+            'sortBy'=>$sortBy,
+            'sortType'=>$sortType,
+        ];
+        
+        $users=$this->user->getAllUsers($filters,$keywords,$sortArr);
+        return view('admin.users.index',['users'=>$users,'sortType'=>$sortType]);
     }
 
     /**

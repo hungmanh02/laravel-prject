@@ -17,8 +17,19 @@ class Role extends ModelsRole
         'group',
         'guard_name'
     ];
-    public function getAllRoles($filters =[],$keywords=null){
-        $roles=DB::table($this->table)->orderBy('id','desc');
+    public function getAllRoles($filters =[],$keywords=null,$sortByArr=null){
+        $roles=DB::table($this->table);
+        $orderBy='id';
+        $orderType='desc';
+        if(!empty($sortByArr) && is_array($sortByArr)){
+            if(!empty($sortByArr['sortBy']) && !empty($sortByArr['sortType'])){
+                $orderBy=trim($sortByArr['sortBy']);
+                $orderType=trim($sortByArr['sortType']);
+            }
+        }
+
+        $roles=$this->orderBy($orderBy,$orderType);
+
         if(!empty($filters)){
             $roles=$this->where($filters);
         }

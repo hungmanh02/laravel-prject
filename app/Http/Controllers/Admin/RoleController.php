@@ -33,8 +33,28 @@ class RoleController extends Controller
             // search thì có Orwhere
             $keywords=$request->keywords;
         }
-        $roles=$this->roles->getAllRoles($filters,$keywords);
-        return view('admin.roles.index',['roles'=>$roles]);
+        // xử lý logic sắp xếp
+        $sortBy=$request->input('sort-by');
+        $allowSort=['asc','desc'];
+        $sortType=$request->input('sort-type');
+        // áp dụng trong trường hợp có du liệu sorttype và không được sửa trên url
+        // chỉ sự dung trong 2 p. tử trong mảng allowSort
+        if(!empty($sortType) && in_array($sortType,$allowSort)){
+            if($sortType=='desc'){
+                $sortType='asc';
+            }else{
+                $sortType='desc';
+            }
+        }else{
+            $sortType='asc';
+        }
+        $sortArr=[
+            'sortBy'=>$sortBy,
+            'sortType'=>$sortType,
+        ];
+        
+        $roles=$this->roles->getAllRoles($filters,$keywords,$sortArr);
+        return view('admin.roles.index',['roles'=>$roles,'sortType'=>$sortType]);
     }
 
     /**

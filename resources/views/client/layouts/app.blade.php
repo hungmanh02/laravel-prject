@@ -40,6 +40,7 @@
 
 
     @include('client.layouts.script')
+    @yield('script')
 </body>
 
 </html>

@@ -29,6 +29,8 @@ Route::get('/product-detail/{id}',[ ClientProductController::class,'show'])->nam
 Route::middleware('auth')->group(function(){
     Route::post('add-to-cart',[CartController::class,'store'])->name('client.carts.add');
     Route::get('carts',[CartController::class,'index'])->name('client.carts.index');
+    Route::post('update-quantity-product-in-cart/{id}',[CartController::class,'updateQuantityProduct'])->name('client.carts.update_product_quantity');
+
 
 });
 Auth::routes();

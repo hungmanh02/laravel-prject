@@ -10,8 +10,9 @@
             <a href="{{ route('products.create') }}" class="btn btn-primary">Create</a>
         </div>
         <div>
-            <table class="table table-hover">
-                <thead>
+          <div class="row">
+            <table class="table table-hover table-bordered">
+                <thead style="text-align: center">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Image</th>
@@ -24,12 +25,12 @@
                   <tbody>
                     @foreach ($products as $key=> $product)
                     <tr>
-                      <th scope="row">{{ $key+=1 }}</th>
-                      <td><img src="{{ $product->images->count() >0 ? asset('upload/'.$product->images->first()->url):'' }}" width="55px" height="55px" alt=""></td>
+                      <th style="text-align: center;" scope="row">{{ $key+=1 }}</th>
+                      <td style="text-align: center;"><img src="{{ $product->image_url ? asset('upload/'.$product->image_url):'' }}" width="55px" height="50px" alt=""></td>
                       <td>{{ $product->name }}</td>
-                      <td>{{ $product->price }}</td>
-                      <td>{{ $product->sale }}</td>
-                      <td style="display: flex;">
+                      <td style="text-align: center;">{{ $product->price }}</td>
+                      <td style="text-align: center;">{{ $product->sale }}</td>
+                      <td style="display: flex;justify-content: center">
 
                         <a href="{{ route('products.show',$product->id) }}" class="btn btn-info">View</a>
                         <a href="{{ route('products.edit',$product->id) }}" class="btn btn-warning" style="margin-left: 4px;margin-right: 4px">Edit</a>
@@ -43,7 +44,10 @@
                     @endforeach
                   </tbody>
             </table>
+          </div>
+          <div>
             {{ $products->links() }}
+          </div>
         </div>
     </div>
 @endsection

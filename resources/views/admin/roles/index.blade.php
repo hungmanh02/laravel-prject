@@ -34,17 +34,28 @@
                   <tr>
                     <th scope="col" class="sort">
                       #
-                      <a href="" >
+                      <a href="?sort-by=id&sort-type={{ $sortType }}" >
                         <i class="fa fa-fw fa-sort"></i>
                       </a>
                     </th>
-                    <th scope="col" class="sort">Name
-                      <a href="">
+                    <th scope="col" class="sort">
+                      Name
+                      <a href="?sort-by=name&sort-type={{ $sortType }}">
                         <i class="fa fa-fw fa-sort"></i>
                       </a>
                     </th>
-                    <th scope="col">Display Name</th>
-                    <th scope="col" class="sort">Group<a href=""><i class="fa fa-fw fa-sort"></i></a></th>
+                    <th scope="col" class="sort">
+                      Display Name
+                      <a href="?sort-by=display_name&sort-type={{ $sortType }}">
+                        <i class="fa fa-fw fa-sort"></i>
+                      </a>
+                    </th>
+                    <th scope="col" class="sort">
+                      Group
+                      <a href="?sort-by=group&sort-type={{ $sortType }}">
+                        <i class="fa fa-fw fa-sort"></i>
+                      </a>
+                    </th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>

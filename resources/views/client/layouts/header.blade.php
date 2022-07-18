@@ -54,7 +54,7 @@
             </a>
             <a href="{{ route('client.carts.index') }}" class="btn border">
                 <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge">{{ $countProductInCart }}</span>
+                <span class="badge" id="productCountCart">{{ $countProductInCart }}</span>
             </a>
         </div>
     </div>
